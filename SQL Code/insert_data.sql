@@ -37,7 +37,7 @@ INSERT INTO cuisine (cuisine, image, caption) VALUES
 
 
 
-INSERT INTO recipe (recipe_name, descr, cuisine_id, theme_id, difficulty, quantity, category, image, caption) VALUES
+INSERT INTO recipe (recipe_name, descr, cuisine_id, theme_id, difficulity, quantity, category, image, caption) VALUES
 ('Spaghetti Carbonara', 'A classic Italian pasta dish with creamy sauce.', 1, 3, 2, 4, 'Pasta', 'https://tinyurl.com/5d9hthne', 'Italian Classic'),
 ('General Tso’s Chicken', 'A popular Chinese-American dish with a sweet and spicy sauce.', 2, 4, 4, 4, 'Chicken', 'https://tinyurl.com/5d9hthne', 'Spicy and Sweet'),
 ('Chicken Tikka Masala', 'Chunks of chicken tikka in a spicy curry sauce.', 3, 1, 2, 4, 'Chicken', 'https://tinyurl.com/5d9hthne', 'Spicy Delight'),
