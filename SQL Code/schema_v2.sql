@@ -124,7 +124,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS recipe_ingredient (
 	recipe_id INT UNSIGNED NOT NULL,
     ingredient_id INT UNSIGNED NOT NULL,
-    amount INT UNSIGNED NOT NULL,                        -- per 100gr/100ml/quantity
+    amount VARCHAR(45) NOT NULL,                        -- per 100gr/100ml/quantity
     main_ingredient BOOLEAN NOT NULL DEFAULT FALSE,     -- based on that ingredient we set the category attribute in the recipe table
     PRIMARY KEY(recipe_id, ingredient_id),
     CONSTRAINT fk_Recipe_Ingredient FOREIGN KEY(recipe_id)
@@ -380,121 +380,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-
-
--- THE BEFORE UPDATE ON for the above triggers isnt required since it doesnt make sense for anyone to go and change what has arleady happened
--- besides it has almost the same logic as the above triggers so creating them wouldnt be an issue
--- but they would negatively impact our database efficiency so they will be ignored
--- ************************************
--- ************************************
-
-
-DELIMITER //
-
-CREATE PROCEDURE CalculateCaloriesPerServing()
-BEGIN
-    DECLARE recipeId INT;
-    DECLARE totalCalories INT;
-    
-    -- Declare cursor to iterate over each recipe
-    DECLARE recipeCursor CURSOR FOR
-        SELECT DISTINCT recipe_id FROM recipe_ingredient;
-        
-    -- Declare NOT FOUND handler for the cursor, will be used to know when to terminate the loop
-    DECLARE CONTINUE HANDLER FOR NOT FOUND
-        SET recipeId = NULL;
-
-    -- Open the cursor
-    OPEN recipeCursor;
-    
-    -- Initialize totalCalories
-    SET totalCalories = 0;
-    
-    -- Loop through each recipe
-    recipeLoop: LOOP
-        FETCH recipeCursor INTO recipeId;
-        IF recipeId IS NULL THEN
-            LEAVE recipeLoop;
-        END IF;
-        
-        -- Calculate total calories for the recipe
-        SET totalCalories = (
-            SELECT SUM((ri.amount * i.calories / 100) / r.quantity)
-            FROM recipe_ingredient ri
-            JOIN ingredient i ON ri.ingredient_id = i.ingredient_id
-            JOIN recipe r ON r.recipe_id = ri.recipe_id
-            WHERE ri.recipe_id = recipeId
-        );
-        
-        -- Update the calories_per_serving in the nutrition table
-        UPDATE nutrition
-        SET calories_per_serving = totalCalories
-        WHERE recipe_id = recipeId;
-    END LOOP;
-
-    -- Close the cursor
-    CLOSE recipeCursor;
-    
-END //
-
-DELIMITER ;
-
-
-/* Now it would be way more efficient to have an argument in the previous stored procedure that specifies the recipe_id in nutrition table
-and creat triggers that call the procedure after an insert/update. like below */
-
-DELIMITER //
-
-CREATE PROCEDURE CalculateCaloriesPerServingForRecipe(IN recipeId INT)
-BEGIN
-    DECLARE totalCalories DECIMAL(10,2);
-    
-    -- Calculate total calories for the recipe
-    SET totalCalories = (
-        SELECT SUM((ri.amount * i.calories / 100) / r.quantity)
-        FROM recipe_ingredient ri
-        JOIN ingredient i ON ri.ingredient_id = i.ingredient_id
-        JOIN recipe r ON r.recipe_id = ri.recipe_id
-        WHERE ri.recipe_id = recipeId
-    );
-    
-    -- Update the calories_per_serving in the nutrition table
-    UPDATE nutrition
-    SET calories_per_serving = totalCalories
-    WHERE recipe_id = recipeId;
-END //
-
-DELIMITER ;
-
-
-DELIMITER //
-
--- Trigger after inserting a new ingredient for a recipe **
-CREATE TRIGGER after_recipe_ingredient_insert
-AFTER INSERT ON recipe_ingredient
-FOR EACH ROW
-BEGIN
-    CALL CalculateCaloriesPerServingForRecipe(NEW.recipe_id);
-END //
-
--- Trigger after updating an ingredient for a recipe  **
-CREATE TRIGGER after_recipe_ingredient_update
-AFTER UPDATE ON recipe_ingredient
-FOR EACH ROW
-BEGIN
-    CALL CalculateCaloriesPerServingForRecipe(NEW.recipe_id);
-END //
-
--- Trigger after deleting an ingredient for a recipe  **
-CREATE TRIGGER after_recipe_ingredient_delete
-AFTER DELETE ON recipe_ingredient
-FOR EACH ROW
-BEGIN
-    CALL CalculateCaloriesPerServingForRecipe(OLD.recipe_id);
-END //
-
-DELIMITER ;
-
 
 DELIMITER //
 
