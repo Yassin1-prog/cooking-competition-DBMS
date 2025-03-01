@@ -1,28 +1,29 @@
-import { useState } from "react";
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Header from "./Components/Header";
+import Cuisines from "./Pages/Cuisines";
+import Ingredients from "./Pages/Ingredients";
+import Tools from "./Pages/Tools";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div></div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button
-          className="text-3xl"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+    <Router>
+      <div className="min-h-screen bg-amber-50">
+        <Header />
+        <main className="container mx-auto px-4 py-8">
+          <Routes>
+            <Route path="/cuisines" element={<Cuisines />} />
+            <Route path="/ingredients" element={<Ingredients />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="*" element={<Navigate to="/cuisines" replace />} />
+          </Routes>
+        </main>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </Router>
   );
 }
 
