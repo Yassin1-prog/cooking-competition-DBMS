@@ -92,7 +92,11 @@ const generalController = {
       console.error("Error deleting cuisine:", error);
       res
         .status(500)
-        .json({ success: false, message: "Failed to delete cuisine" });
+        .json({
+          success: false,
+          message:
+            "Failed to delete cuisine, make sure to delete entities that depend on it first",
+        });
     }
   },
 
@@ -178,7 +182,11 @@ const generalController = {
       console.error("Error deleting ingredient:", error);
       res
         .status(500)
-        .json({ success: false, message: "Failed to delete ingredient" });
+        .json({
+          success: false,
+          message:
+            "Failed to delete ingredient, make sure to delete entities that depend on it first",
+        });
     }
   },
 
@@ -262,7 +270,11 @@ const generalController = {
       console.error("Error deleting tool:", error);
       res
         .status(500)
-        .json({ success: false, message: "Failed to delete tool" });
+        .json({
+          success: false,
+          message:
+            "Failed to delete tool, make sure to delete entities that depend on it first",
+        });
     }
   },
 };

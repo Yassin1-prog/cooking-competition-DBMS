@@ -8,6 +8,8 @@ import Header from "./Components/Header";
 import Cuisines from "./Pages/Cuisines";
 import Ingredients from "./Pages/Ingredients";
 import Tools from "./Pages/Tools";
+import Episodes from "./Pages/Episodes";
+import EpisodeDetails from "./Pages/EpisodeDetails";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
             <Route path="/cuisines" element={<Cuisines />} />
             <Route path="/ingredients" element={<Ingredients />} />
             <Route path="/tools" element={<Tools />} />
+            <Route path="/episodes" element={<Episodes />} />
+            <Route path="/episodes/:id" element={<EpisodeDetails />} />
             <Route path="*" element={<Navigate to="/cuisines" replace />} />
           </Routes>
         </main>
