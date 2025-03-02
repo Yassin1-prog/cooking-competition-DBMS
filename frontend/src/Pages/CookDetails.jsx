@@ -99,7 +99,7 @@ function CookDetails() {
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold text-amber-800 mb-2">
-                  Contact Information
+                  Personal Information
                 </h3>
                 <p className="text-amber-700">Phone: {cook.phone}</p>
                 <p className="text-amber-700">Age: {cook.age} years</p>

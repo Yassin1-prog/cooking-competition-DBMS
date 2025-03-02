@@ -238,6 +238,7 @@ function Tools() {
                   onChange={(e) => setNewToolName(e.target.value)}
                   className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="Enter tool name"
+                  maxLength="40"
                   required
                 />
               </div>
@@ -285,6 +286,7 @@ function Tools() {
                   }
                   className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="Enter tool name"
+                  maxLength={40}
                   required
                 />
               </div>

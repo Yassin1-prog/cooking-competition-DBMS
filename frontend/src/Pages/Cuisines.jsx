@@ -238,6 +238,7 @@ function Cuisines() {
                   onChange={(e) => setNewCuisineName(e.target.value)}
                   className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="Enter cuisine name"
+                  maxLength="40"
                   required
                 />
               </div>
@@ -288,6 +289,7 @@ function Cuisines() {
                   }
                   className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="Enter cuisine name"
+                  maxLength={40}
                   required
                 />
               </div>

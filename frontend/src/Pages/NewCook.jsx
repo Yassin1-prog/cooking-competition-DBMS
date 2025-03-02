@@ -143,6 +143,7 @@ function NewCook() {
               required
               value={formData.first_name}
               onChange={handleChange}
+              maxLength={40}
               className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
@@ -158,6 +159,7 @@ function NewCook() {
               required
               value={formData.last_name}
               onChange={handleChange}
+              maxLength={40}
               className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
@@ -188,6 +190,7 @@ function NewCook() {
               required
               value={formData.phone}
               onChange={handleChange}
+              maxLength={40}
               className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
@@ -204,6 +207,7 @@ function NewCook() {
               name="years_of_experience"
               type="number"
               min="0"
+              max={100}
               required
               value={formData.years_of_experience}
               onChange={handleChange}
@@ -231,7 +235,6 @@ function NewCook() {
             </select>
           </div>
         </div>
-        {console.log(formData)}
         <div>
           <label className="block text-amber-700 mb-2">
             Cuisine Experience

@@ -13,6 +13,9 @@ import EpisodeDetails from "./Pages/EpisodeDetails";
 import Cooks from "./Pages/Cooks";
 import CookDetails from "./Pages/CookDetails";
 import NewCook from "./Pages/NewCook";
+import Recipes from "./Pages/Recipes";
+import RecipeDetails from "./Pages/RecipeDetails";
+import NewRecipe from "./Pages/NewRecipe";
 
 function App() {
   return (
@@ -30,7 +33,11 @@ function App() {
             <Route path="/cooks/:id" element={<CookDetails />} />
             <Route path="/cooks/new" element={<NewCook />} />
             <Route path="/cooks/edit/:id" element={<NewCook />} />
-            <Route path="*" element={<Navigate to="/cuisines" replace />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipes/:id" element={<RecipeDetails />} />
+            <Route path="/recipes/new" element={<NewRecipe />} />
+            <Route path="/recipes/edit/:id" element={<NewRecipe />} />
+            <Route path="*" element={<Navigate to="/recipes" replace />} />
           </Routes>
         </main>
       </div>
