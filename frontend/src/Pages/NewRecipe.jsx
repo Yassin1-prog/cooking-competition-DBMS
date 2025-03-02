@@ -342,7 +342,7 @@ function NewRecipe() {
                 required
                 value={formData.nutrition.carbs}
                 onChange={handleChange}
-                max={10000}
+                max={999}
                 className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
@@ -361,7 +361,7 @@ function NewRecipe() {
                 required
                 value={formData.nutrition.fat}
                 onChange={handleChange}
-                max={10000}
+                max={999}
                 className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
@@ -380,7 +380,7 @@ function NewRecipe() {
                 required
                 value={formData.nutrition.protein}
                 onChange={handleChange}
-                max={10000}
+                max={999}
                 className="w-full px-3 py-2 border border-amber-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
