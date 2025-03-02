@@ -52,6 +52,14 @@ function Header() {
             >
               Episodes
             </Link>
+            <Link
+              to="/cooks"
+              className={`px-4 py-2 rounded-md transition-colors duration-200 font-medium ${isActive(
+                "/cooks"
+              )}`}
+            >
+              Cooks
+            </Link>
           </nav>
         </div>
       </div>

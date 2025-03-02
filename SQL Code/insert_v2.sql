@@ -3155,3 +3155,18 @@ INSERT INTO `judge` (`episode_id`, `cook_id`, `position`) VALUES
 (100, 1, '1'),
 (100, 46, '3'),
 (100, 68, '2');
+
+UPDATE episode_recipe_cook erc
+JOIN (
+    -- Find the cook_id with the highest total grade for each episode
+    SELECT episode_id, cook_id
+    FROM (
+        SELECT episode_id, cook_id, 
+               (grade1 + grade2 + grade3) AS total_grade,
+               RANK() OVER (PARTITION BY episode_id ORDER BY (grade1 + grade2 + grade3) DESC) AS rnk
+        FROM episode_recipe_cook
+    ) ranked
+    WHERE rnk = 1  -- Keep only the top-ranked cook(s) per episode
+) winners
+ON erc.episode_id = winners.episode_id AND erc.cook_id = winners.cook_id
+SET erc.winner = TRUE;

@@ -10,6 +10,9 @@ import Ingredients from "./Pages/Ingredients";
 import Tools from "./Pages/Tools";
 import Episodes from "./Pages/Episodes";
 import EpisodeDetails from "./Pages/EpisodeDetails";
+import Cooks from "./Pages/Cooks";
+import CookDetails from "./Pages/CookDetails";
+import NewCook from "./Pages/NewCook";
 
 function App() {
   return (
@@ -23,6 +26,10 @@ function App() {
             <Route path="/tools" element={<Tools />} />
             <Route path="/episodes" element={<Episodes />} />
             <Route path="/episodes/:id" element={<EpisodeDetails />} />
+            <Route path="/cooks" element={<Cooks />} />
+            <Route path="/cooks/:id" element={<CookDetails />} />
+            <Route path="/cooks/new" element={<NewCook />} />
+            <Route path="/cooks/edit/:id" element={<NewCook />} />
             <Route path="*" element={<Navigate to="/cuisines" replace />} />
           </Routes>
         </main>

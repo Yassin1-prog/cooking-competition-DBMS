@@ -383,46 +383,30 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE updateEpisodeWinners()
+DELIMITER //
+
+CREATE PROCEDURE updateEpisodeWinner(IN episodeId INT UNSIGNED)
 BEGIN
-    DECLARE done INT DEFAULT 0;
-    DECLARE current_episode_id INT UNSIGNED;
     DECLARE max_grade INT UNSIGNED;
     DECLARE max_grade_cook_id INT UNSIGNED;
 
-    -- Cursor to iterate over each episode
-    DECLARE episode_cursor CURSOR FOR
-        SELECT episode_id FROM episode;
+    -- Find the cook_id with the highest total grades in the given episode
+    SELECT cook_id, (grade1 + grade2 + grade3) AS total_grade 
+    INTO max_grade_cook_id, max_grade
+    FROM episode_recipe_cook
+    WHERE episode_id = episodeId
+    ORDER BY total_grade DESC
+    LIMIT 1;
 
-    -- Handler to manage the end of the cursor loop
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    -- Reset previous winners in this episode
+    UPDATE episode_recipe_cook
+    SET winner = FALSE
+    WHERE episode_id = episodeId;
 
-    -- Open the cursor
-    OPEN episode_cursor;
-
-    -- Loop through each episode
-    episode_loop: LOOP
-        FETCH episode_cursor INTO current_episode_id;
-
-        IF done THEN
-            LEAVE episode_loop;
-        END IF;
-
-        -- Find the cook_id with the highest total grades in the current episode
-        SELECT cook_id, (grade1 + grade2 + grade3) AS total_grade INTO max_grade_cook_id, max_grade
-        FROM episode_recipe_cook
-        WHERE episode_id = current_episode_id
-        ORDER BY total_grade DESC
-        LIMIT 1;
-
-        -- Update the winner column to TRUE for the cook with the highest total grade in the current episode
-        UPDATE episode_recipe_cook
-        SET winner = TRUE
-        WHERE episode_id = current_episode_id AND cook_id = max_grade_cook_id;
-    END LOOP;
-
-    -- Close the cursor
-    CLOSE episode_cursor;
+    -- Update the winner column to TRUE for the cook with the highest total grade
+    UPDATE episode_recipe_cook
+    SET winner = TRUE
+    WHERE episode_id = episodeId AND cook_id = max_grade_cook_id;
 END //
 
 DELIMITER ;
